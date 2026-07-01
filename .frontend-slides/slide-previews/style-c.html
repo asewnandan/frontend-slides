@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>CEDA × Npuls — Huisstijl Preview</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+<style>
+/* === VIEWPORT BASE === */
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #000; }
+.deck-viewport { position: fixed; inset: 0; overflow: hidden; background: #000; }
+.deck-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 0 0; }
+.slide { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; display: block; visibility: hidden; opacity: 0; pointer-events: none; }
+.slide.active { visibility: visible; opacity: 1; pointer-events: auto; z-index: 1; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; } }
+
+/* === NPULS TOKENS === */
+:root {
+  --oranje:  #DD784B;
+  --blauw:   #3D68EC;
+  --geel:    #F4D74B;
+  --groen:   #00AF81;
+  --roze:    #F4D9DC;
+  --zwart:   #000000;
+  --wit:     #ffffff;
+  --font:    'General Sans', Arial, sans-serif;
+}
+
+.slide-title {
+  background: var(--zwart);
+  position: relative;
+  overflow: hidden;
+}
+
+.dot-canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: fadeIn 1.4s ease 0.3s forwards;
+}
+
+/* Npuls vormentaal — concentrische bogen rechtsonder */
+.bogen {
+  position: absolute;
+  bottom: -100px;
+  right: -100px;
+  width: 700px;
+  height: 700px;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeIn 0.9s ease 1.3s forwards;
+}
+
+/* Logo linksboven */
+.logo-row {
+  position: absolute;
+  top: 56px;
+  left: 80px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  animation: fadeUp 0.5s ease 0.4s forwards;
+  z-index: 10;
+}
+
+.logo-mark svg { width: 44px; height: 44px; }
+
+.logo-naam {
+  font-family: var(--font);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--wit);
+  letter-spacing: 0.5px;
+}
+
+.logo-sep {
+  width: 1px; height: 20px;
+  background: rgba(255,255,255,0.2);
+}
+
+.logo-sub {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.datum {
+  position: absolute;
+  top: 64px; right: 80px;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeIn 0.5s ease 0.5s forwards;
+  z-index: 10;
+}
+
+.content {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 80px;
+  width: 1080px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 10;
+}
+
+.accent-balk {
+  width: 64px; height: 6px;
+  background: var(--oranje);
+  margin-bottom: 48px;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: balkIn 0.5s cubic-bezier(0.16,1,0.3,1) 0.9s forwards;
+}
+
+.titel {
+  font-family: var(--font);
+  font-size: 122px;
+  font-weight: 700;
+  line-height: 0.92;
+  color: var(--wit);
+  letter-spacing: -2px;
+}
+
+.titel-regel { display: block; overflow: hidden; }
+
+.titel-inner {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(110%);
+  animation: slideUp 0.65s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.titel-regel:nth-child(1) .titel-inner { animation-delay: 0.95s; }
+.titel-regel:nth-child(2) .titel-inner { animation-delay: 1.08s; color: var(--oranje); }
+.titel-regel:nth-child(3) .titel-inner {
+  animation-delay: 1.20s;
+  font-size: 78px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.4);
+}
+
+.ondertitel {
+  font-family: var(--font);
+  font-size: 26px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.65;
+  margin-top: 52px;
+  max-width: 740px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 1.35s forwards;
+}
+
+.tag-rij {
+  position: absolute;
+  bottom: 56px; left: 80px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  animation: fadeUp 0.5s ease 1.5s forwards;
+  z-index: 10;
+}
+
+.tag {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border: 1.5px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.35);
+}
+
+.tag.actief {
+  border-color: var(--blauw);
+  color: var(--blauw);
+  background: rgba(61,104,236,0.1);
+}
+
+@keyframes fadeIn  { to { opacity: 1; } }
+@keyframes fadeUp  { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes balkIn  { to { opacity: 1; transform: scaleX(1); } }
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+  <div class="deck-stage" id="stage">
+    <div class="slide active slide-title">
+
+      <canvas class="dot-canvas" id="dc"></canvas>
+
+      <!-- Concentrische bogen rechtsonder — Npuls vormentaal -->
+      <svg class="bogen" viewBox="0 0 700 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="700" cy="700" r="180" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" fill="none"/>
+        <circle cx="700" cy="700" r="280" stroke="rgba(255,255,255,0.04)" stroke-width="1.5" fill="none"/>
+        <circle cx="700" cy="700" r="380" stroke="rgba(255,255,255,0.035)" stroke-width="1.5" fill="none"/>
+        <circle cx="700" cy="700" r="480" stroke="rgba(255,255,255,0.025)" stroke-width="1" fill="none"/>
+        <circle cx="700" cy="700" r="150" stroke="#DD784B" stroke-width="1.5" fill="none" opacity="0.3"/>
+        <circle cx="700" cy="700" r="250" stroke="#3D68EC" stroke-width="1" fill="none" opacity="0.2"/>
+      </svg>
+
+      <!-- Npuls logo horizontaal linksboven -->
+      <div class="logo-row">
+        <div class="logo-mark">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+            <g fill="#FFFFFF">
+              <circle cx="36" cy="29" r="3"/><circle cx="42.1" cy="32.5" r="3"/>
+              <circle cx="42.1" cy="39.5" r="3"/><circle cx="36" cy="43" r="3"/>
+              <circle cx="29.9" cy="39.5" r="3"/><circle cx="29.9" cy="32.5" r="3"/>
+              <circle cx="36" cy="23" r="2.5"/><circle cx="43.6" cy="25.5" r="2.5"/>
+              <circle cx="48.4" cy="32" r="2.5"/><circle cx="48.4" cy="40" r="2.5"/>
+              <circle cx="43.6" cy="46.5" r="2.5"/><circle cx="36" cy="49" r="2.5"/>
+              <circle cx="28.4" cy="46.5" r="2.5"/><circle cx="23.6" cy="40" r="2.5"/>
+              <circle cx="23.6" cy="32" r="2.5"/><circle cx="28.4" cy="25.5" r="2.5"/>
+              <circle cx="36" cy="17" r="2"/><circle cx="44.2" cy="18.9" r="2"/>
+              <circle cx="50.9" cy="24.2" r="2"/><circle cx="54.5" cy="31.8" r="2"/>
+              <circle cx="54.5" cy="40.2" r="2"/><circle cx="50.9" cy="47.8" r="2"/>
+              <circle cx="44.2" cy="53.1" r="2"/><circle cx="36" cy="55" r="2"/>
+              <circle cx="27.8" cy="53.1" r="2"/><circle cx="21.1" cy="47.8" r="2"/>
+              <circle cx="17.5" cy="40.2" r="2"/><circle cx="17.5" cy="31.8" r="2"/>
+              <circle cx="21.1" cy="24.2" r="2"/><circle cx="27.8" cy="18.9" r="2"/>
+              <circle cx="36" cy="11" r="1.6"/><circle cx="44.6" cy="12.5" r="1.6"/>
+              <circle cx="52.1" cy="16.8" r="1.6"/><circle cx="57.7" cy="23.5" r="1.6"/>
+              <circle cx="60.6" cy="31.7" r="1.6"/><circle cx="60.6" cy="40.3" r="1.6"/>
+              <circle cx="57.7" cy="48.5" r="1.6"/><circle cx="52.1" cy="55.2" r="1.6"/>
+              <circle cx="44.6" cy="59.5" r="1.6"/><circle cx="36" cy="61" r="1.6"/>
+              <circle cx="27.4" cy="59.5" r="1.6"/><circle cx="19.9" cy="55.2" r="1.6"/>
+              <circle cx="14.3" cy="48.5" r="1.6"/><circle cx="11.4" cy="40.3" r="1.6"/>
+              <circle cx="11.4" cy="31.7" r="1.6"/><circle cx="14.3" cy="23.5" r="1.6"/>
+              <circle cx="19.9" cy="16.8" r="1.6"/><circle cx="27.4" cy="12.5" r="1.6"/>
+              <circle cx="36" cy="5" r="1.2"/><circle cx="44.7" cy="6.3" r="1.2"/>
+              <circle cx="52.8" cy="9.9" r="1.2"/><circle cx="59.4" cy="15.7" r="1.2"/>
+              <circle cx="64.2" cy="23.1" r="1.2"/><circle cx="66.7" cy="31.6" r="1.2"/>
+              <circle cx="66.7" cy="40.4" r="1.2"/><circle cx="64.2" cy="48.9" r="1.2"/>
+              <circle cx="59.4" cy="56.3" r="1.2"/><circle cx="52.8" cy="62.1" r="1.2"/>
+              <circle cx="44.7" cy="65.7" r="1.2"/><circle cx="36" cy="67" r="1.2"/>
+              <circle cx="27.3" cy="65.7" r="1.2"/><circle cx="19.2" cy="62.1" r="1.2"/>
+              <circle cx="12.6" cy="56.3" r="1.2"/><circle cx="7.8" cy="48.9" r="1.2"/>
+              <circle cx="5.3" cy="40.4" r="1.2"/><circle cx="5.3" cy="31.6" r="1.2"/>
+              <circle cx="7.8" cy="23.1" r="1.2"/><circle cx="12.6" cy="15.7" r="1.2"/>
+              <circle cx="19.2" cy="9.9" r="1.2"/><circle cx="27.3" cy="6.3" r="1.2"/>
+            </g>
+          </svg>
+        </div>
+        <div class="logo-naam">Npuls</div>
+        <div class="logo-sep"></div>
+        <div class="logo-sub">Team CEDA</div>
+      </div>
+
+      <div class="datum">Juli 2026</div>
+
+      <div class="content">
+        <div class="accent-balk"></div>
+        <div class="titel">
+          <span class="titel-regel"><span class="titel-inner">Bouwen</span></span>
+          <span class="titel-regel"><span class="titel-inner">met AI.</span></span>
+          <span class="titel-regel"><span class="titel-inner">Samen beter.</span></span>
+        </div>
+        <div class="ondertitel">
+          Van idee naar impact — door expertise vast te leggen<br>
+          in een systeem dat voor iedereen werkt.
+        </div>
+      </div>
+
+      <div class="tag-rij">
+        <div class="tag actief">Workshop</div>
+        <div class="tag">1 uur</div>
+        <div class="tag">Ash Sewnandan</div>
+        <div class="tag">Onderwijs bewegen.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('dc');
+const ctx = canvas.getContext('2d');
+canvas.width = 1920; canvas.height = 1080;
+
+const dots = Array.from({length: 60}, () => ({
+  x: Math.random() * 1920,
+  y: Math.random() * 1080,
+  r: Math.random() * 1.6 + 0.4,
+  vx: (Math.random() - 0.5) * 0.2,
+  vy: (Math.random() - 0.5) * 0.2,
+  op: Math.random() * 0.15 + 0.04,
+  col: Math.random() > 0.65 ? [221,120,75] : [61,104,236]
+}));
+
+let t = 0;
+(function loop() {
+  ctx.clearRect(0, 0, 1920, 1080);
+  t++;
+  dots.forEach(d => {
+    d.x += d.vx; d.y += d.vy;
+    if (d.x < 0 || d.x > 1920) d.vx *= -1;
+    if (d.y < 0 || d.y > 1080) d.vy *= -1;
+    const p = Math.sin(t * 0.015 + d.x * 0.006) * 0.12 + 0.88;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, d.r * p, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${d.col[0]},${d.col[1]},${d.col[2]},${d.op * p})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(loop);
+})();
+
+function scale() {
+  const s = document.getElementById('stage');
+  const r = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  const dx = (window.innerWidth - 1920 * r) / 2;
+  const dy = (window.innerHeight - 1080 * r) / 2;
+  s.style.transform = `translate(${dx}px,${dy}px) scale(${r})`;
+}
+scale(); window.addEventListener('resize', scale);
+</script>
+</body>
+</html>
