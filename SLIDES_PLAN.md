@@ -39,10 +39,29 @@ METR 2025 studie: developers dachten 20% sneller te zijn met AI, waren in het ex
 | # | ID | Status | Wat |
 |---|---|---|---|
 | 1 | s8 | ✅ Done | Divider — "Van vibe coding naar AI Assisted Engineering (and beyond)" |
-| 2 | s9 | 📝 Content aanwezig | CEDA OS — 6 domeinen (domain-grid, dot-logo) |
+| 2 | s9 | 🔧 In progress | Company OS → brein + 6 domeinen, 4-state animatie — zie stappenplan s9 hieronder |
 | 3 | s10 | 📝 Content aanwezig | Expertise vastleggen — Skill / Hook / Standaard / Agent (mechrow) |
 | 4 | s11 | 📝 Content aanwezig | Maker vs Architect — twee rollen, twee werelden (split cards) |
 | 5 | s12 | 📝 Content aanwezig | Scope afbakening — "Vandaag buiten scope: itereren op bestaand product" |
+
+## Stappenplan s9 (huidige status + todo)
+
+### Wat al gebouwd is
+- Lichte papier-achtergrond (`--paper:#FBFAF7`)
+- Brain SVG (`Brain Pictogram 5.svg`) inline, gecentreerd ~(960,470), scale 0.5
+- Kicker "HET SYSTEEM" + titel "Company OS" linksboven (x=96)
+- 6 verbindingslijnen (cl1–cl6) met stroke-dashoffset draw-in animatie
+- 6 domein-nodes als `<g class="s9-nodeg ng1–6">` groepen: zwarte cirkel r=52, witte tekst gecentreerd binnenin
+- Sub-domein lijnen + labels voor Engineering, Product, Design
+- JS state machine: 3 sub-states op s9 (s9State 0→1→2→3) vóór slide advance
+- CSS voor alle 4 states (0=basis, 1=nodes tekenen in, 2=sub-domeinen, 3=focus Design)
+
+### Openstaande todo's (volgorde)
+1. **Kleur/drukheid beoordelen** — gebruiker vroeg of het te druk is qua kleur. Overweeg: nodes minder zwart (donkergrijs), of brain meer lichtgrijs, of verbindingslijnen nog subtieler
+2. **Nodes visueel testen** — state 0 (alleen brein + titel), state 1 (nodes tekenen in sequentieel), state 2 (sub-domeinen verschijnen), state 3 (alles dim behalve Design)
+3. **Sub-domein startpunten checken** — lijnen vertrekken nu vanuit cirkelrand (r=52 edge). Visueel valideren of ze netjes aansluiten
+4. **"CEDA OS" fade-in** — `s9-ceda` opacity staat op 0 en verandert nooit. Beslissen: wil je Company OS → CEDA OS transitie, en zo ja in welke state?
+5. **Domein-namen definitief maken** — huidige namen: Engineering, Product, Data & AI, Design, Operations, Kennis. Goede MECE-set?
 
 ## Beslissingen genomen
 
