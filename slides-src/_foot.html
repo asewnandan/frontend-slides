@@ -184,18 +184,43 @@ window.addEventListener('touchend',e=>{
 })();
 
 ;(function(){
-  const S9_IDX = 9;
   const s9El = document.getElementById('s9');
+  const S9_IDX = [...document.querySelectorAll('.slide')].indexOf(s9El);
   let s9State = 0;
   var _prev9 = goTo;
   goTo = function(i) {
-    if (i > current && current === S9_IDX && s9State < 3) {
-      s9State++; s9El.dataset.state = String(s9State); return;
+    if (i > current && current === S9_IDX && s9State < 7) {
+      s9State++;
+      s9El.dataset.state = String(Math.min(s9State, 3));
+      s9El.dataset.shift = s9State >= 4 ? '1' : '0';
+      s9El.dataset.cards = s9State === 5 ? '1' : '0';
+      s9El.dataset.icons = s9State >= 6 ? '1' : '0';
+      s9El.dataset.ai    = s9State >= 7 ? '1' : '0';
+      return;
     }
     if (current === S9_IDX && i !== S9_IDX) {
-      s9State = 0; s9El.dataset.state = '0';
+      s9State = 0; s9El.dataset.state = '0'; s9El.dataset.shift = '0';
+      s9El.dataset.cards = '0'; s9El.dataset.icons = '0'; s9El.dataset.ai = '0';
     }
     _prev9(i);
+  };
+})();
+
+;(function(){
+  const s10bEl = document.getElementById('s10b');
+  const S10B_IDX = [...document.querySelectorAll('.slide')].indexOf(s10bEl);
+  let s10bStep = 0;
+  var _prev10b = goTo;
+  goTo = function(i){
+    if(i > current && current === S10B_IDX && s10bStep < 10){
+      s10bStep++;
+      s10bEl.dataset.step = String(s10bStep);
+      return;
+    }
+    if(current === S10B_IDX && i !== S10B_IDX){
+      s10bStep = 0; s10bEl.dataset.step = '0';
+    }
+    _prev10b(i);
   };
 })();
 </script>
