@@ -171,6 +171,19 @@ html,body{width:100%;height:100%;background:#050505;font-family:var(--sans);over
 .aq .quote{color:var(--black);}
 
 /* Moment slide */
+@keyframes s7-dot-wave{0%,55%,100%{color:rgba(255,255,255,.2);}27%{color:var(--orange);}}
+#s7{padding:0;overflow:hidden;}
+#s7 .s7-scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+#s7 .s7-maar-row{display:flex;align-items:baseline;transition:transform 3.5s cubic-bezier(.4,0,.2,1);}
+#s7[data-state="1"] .s7-maar-row{transform:translateY(-260px);}
+#s7 .s7-maar{font-family:var(--sans);font-weight:800;font-size:200px;line-height:1;color:#fff;letter-spacing:-.04em;}
+#s7 .s7-dot{font-family:var(--sans);font-weight:800;font-size:200px;line-height:1;color:rgba(255,255,255,.2);letter-spacing:-.01em;}
+#s7.is-active .s7-dot:nth-child(1){animation:s7-dot-wave 1.6s ease-in-out .15s infinite;}
+#s7.is-active .s7-dot:nth-child(2){animation:s7-dot-wave 1.6s ease-in-out .45s infinite;}
+#s7.is-active .s7-dot:nth-child(3){animation:s7-dot-wave 1.6s ease-in-out .75s infinite;}
+#s7 .s7-gif-wrap{position:absolute;bottom:-620px;left:50%;transform:translateX(-50%);transition:bottom 3.5s cubic-bezier(.4,0,.2,1);}
+#s7[data-state="1"] .s7-gif-wrap{bottom:40px;}
+#s7 .s7-gif{width:860px;border-radius:18px;display:block;}
 .moment{background:var(--black);color:#fff;justify-content:center;align-items:flex-start;padding:0 140px;}
 .moment .big{font-family:var(--sans);font-weight:700;font-size:92px;line-height:1.0;color:#fff;max-width:1400px;}
 .moment .big em{color:var(--orange);font-style:normal;}
@@ -220,6 +233,8 @@ html,body{width:100%;height:100%;background:#050505;font-family:var(--sans);over
 #s5 .s5-title{position:absolute;top:145px;left:140px;font-family:var(--sans);font-weight:700;font-size:64px;line-height:1.1;color:var(--black);}
 #s5 .s5-title-2{color:var(--blue);opacity:0;transition:opacity .5s .3s;}
 #s5[data-state="1"] .s5-title-2{opacity:1;}
+#s5 .s5-title-3{font-size:22px;font-weight:400;font-style:italic;color:rgba(0,0,0,.35);margin-left:14px;opacity:0;transition:opacity .5s .3s;}
+#s5[data-state="1"] .s5-title-3{opacity:1;}
 #s5 .s5-chart{position:absolute;top:280px;left:100px;width:1680px;height:540px;overflow:visible;}
 #s5 .s5-chart svg{overflow:visible;}
 .s5-vel-ceil{opacity:0;}
@@ -255,27 +270,77 @@ html,body{width:100%;height:100%;background:#050505;font-family:var(--sans);over
 #s6{background:var(--paper);}
 #s6 .s6-kicker{position:absolute;top:52px;left:120px;font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,0,0,.35);}
 #s6 .s6-grid{position:absolute;top:110px;left:60px;right:60px;bottom:48px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:28px;}
-.s6-card{background:#fff;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.05);overflow:hidden;display:flex;flex-direction:column;opacity:0;transform:translateY(20px);transition:opacity .45s,transform .45s;}
-.s6-card--1{transition-delay:.05s;}.s6-card--2{transition-delay:.12s;}.s6-card--3{transition-delay:.19s;}
-.s6-card--4{transition-delay:.26s;}.s6-card--5{transition-delay:.33s;}.s6-card--6{transition-delay:.40s;}
-#s6.is-active .s6-card{opacity:1;transform:translateY(0);}
+@property --s6-angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+@keyframes s6-border-spin{to{--s6-angle:360deg;}}
+.s6-card-wrap{display:flex;border-radius:13px;padding:1.5px;opacity:0;transition:opacity .38s cubic-bezier(.22,1,.36,1);}
+.s6-card-wrap--1{transition-delay:.04s;animation:s6-border-spin 9s linear -0s infinite;}
+.s6-card-wrap--2{transition-delay:.10s;animation:s6-border-spin 11s linear -3s infinite;}
+.s6-card-wrap--3{transition-delay:.16s;animation:s6-border-spin 8s linear -5s infinite;}
+.s6-card-wrap--4{transition-delay:.22s;animation:s6-border-spin 10s linear -2s infinite;}
+.s6-card-wrap--5{transition-delay:.28s;animation:s6-border-spin 12s linear -7s infinite;}
+.s6-card-wrap--6{transition-delay:.34s;animation:s6-border-spin 9.5s linear -4s infinite;}
+#s6.is-active .s6-card-wrap{opacity:1;}
+.s6-card-wrap{background:conic-gradient(from var(--s6-angle),rgba(180,180,190,.15) 0%,rgba(150,120,220,.65) 30%,rgba(220,140,90,.55) 60%,rgba(180,180,190,.15) 100%);}
+.s6-card{background:#fff;border-radius:11px;box-shadow:0 2px 6px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.05);overflow:hidden;display:flex;flex-direction:column;flex:1;transform:translateY(14px) scale(.97);transition:transform .38s cubic-bezier(.22,1,.36,1);}
+#s6.is-active .s6-card{transform:translateY(0) scale(1);}
 .s6-chrome{background:#efefef;padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(0,0,0,.06);flex-shrink:0;}
 .s6-dots{display:flex;gap:4px;}
 .s6-dot-r,.s6-dot-y,.s6-dot-g{width:9px;height:9px;border-radius:50%;}
 .s6-dot-r{background:#ff5f57;}.s6-dot-y{background:#febc2e;}.s6-dot-g{background:#28c840;}
 .s6-url-bar{flex:1;background:#fff;border-radius:4px;padding:3px 9px;font-family:var(--sans);font-size:11px;color:rgba(0,0,0,.4);border:1px solid rgba(0,0,0,.09);}
-.s6-body{padding:16px 18px;flex:1;display:flex;flex-direction:column;gap:8px;overflow:hidden;}
+.s6-body{padding:20px 22px;flex:1;display:flex;flex-direction:column;gap:12px;overflow:hidden;}
 .s6-tag{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border-left:2px solid;padding-left:6px;flex-shrink:0;}
-.s6-headline{font-family:var(--sans);font-size:16px;font-weight:700;line-height:1.3;color:var(--black);}
-.s6-excerpt{font-family:var(--sans);font-size:13px;color:rgba(0,0,0,.5);line-height:1.55;font-style:italic;}
-.s6-comment-block{background:#f6f6f6;border-radius:6px;padding:9px 11px;font-family:var(--sans);font-size:12px;color:rgba(0,0,0,.55);line-height:1.45;display:flex;gap:7px;margin-top:auto;}
-.s6-comment-icon{color:#FF4500;font-weight:900;font-size:13px;flex-shrink:0;}
+.s6-headline{font-family:var(--sans);font-size:22px;font-weight:700;line-height:1.25;color:var(--black);}
+.s6-comment-block{background:#f6f6f6;border-radius:6px;padding:12px 14px;font-family:var(--sans);font-size:16px;color:rgba(0,0,0,.65);line-height:1.45;display:flex;gap:8px;margin-top:auto;}
+.s6-comment-icon{color:#FF4500;font-weight:900;font-size:16px;flex-shrink:0;}
 .s6-li-author{display:flex;gap:10px;align-items:center;flex-shrink:0;}
-.s6-avatar{width:36px;height:36px;border-radius:50%;background:#0A66C2;color:#fff;font-family:var(--sans);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.s6-li-name{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--black);}
-.s6-li-role{font-family:var(--sans);font-size:11px;color:rgba(0,0,0,.4);}
-.s6-li-post{font-family:var(--sans);font-size:14px;font-weight:400;color:rgba(0,0,0,.7);line-height:1.5;}
-.s6-byline{font-family:var(--sans);font-size:12px;color:rgba(0,0,0,.35);margin-top:auto;}
+.s6-avatar{width:40px;height:40px;border-radius:50%;background:#0A66C2;color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.s6-li-name{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--black);}
+.s6-li-role{font-family:var(--sans);font-size:12px;color:rgba(0,0,0,.4);}
+.s6-li-post{font-family:var(--sans);font-size:18px;font-weight:400;color:rgba(0,0,0,.7);line-height:1.5;}
+.s6-byline{font-family:var(--sans);font-size:13px;color:rgba(0,0,0,.35);margin-top:auto;}
+
+/* ===== S9 BRAIN / COMPANY OS → CEDA OS ===== */
+#s9{background:radial-gradient(ellipse at 50% 48%,#0d0d1f 0%,#07070e 72%);padding:0;overflow:hidden;}
+#s9 .s9-svg{position:absolute;inset:0;width:100%;height:100%;}
+@keyframes s9-glow-pulse{0%,100%{opacity:.16;}50%{opacity:.30;}}
+@keyframes s9-ring-cw{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes s9-pulse{from{stroke-dashoffset:0;}to{stroke-dashoffset:-240;}}
+.s9-glow{transition:fill .9s ease;}
+.s9-brain-outer{fill:#0d0d1f;stroke:#3D68EC;stroke-width:2.5;stroke-linejoin:round;transition:stroke .9s ease;}
+.s9-brain-fissure{fill:none;stroke:#3D68EC;stroke-width:1.5;opacity:.5;transition:stroke .9s ease;}
+.s9-brain-fold{fill:none;stroke:#3D68EC;stroke-width:1.2;opacity:.3;stroke-linecap:round;transition:stroke .9s ease;}
+.s9-orbit{fill:none;stroke:#3D68EC;stroke-width:.8;stroke-dasharray:4 10;opacity:.16;transform-origin:960px 520px;}
+.s9-cline{stroke:rgba(61,104,236,.16);stroke-width:1.5;}
+.s9-pdot{fill:none;stroke:#6fa8ff;stroke-width:4;stroke-linecap:round;stroke-dasharray:14 9999;opacity:0;transition:stroke .9s ease;}
+.s9-node{fill:none;stroke:rgba(61,104,236,.38);stroke-width:2;transition:fill .7s,stroke .7s;}
+.s9-num{font-family:var(--sans);font-size:18px;font-weight:700;fill:rgba(255,255,255,.36);dominant-baseline:middle;transition:fill .5s;}
+.s9-nname{font-family:var(--sans);font-size:15px;font-weight:500;fill:rgba(255,255,255,0);letter-spacing:.025em;transition:fill .5s;}
+.nnd2{transition-delay:.07s;}.nnd3{transition-delay:.14s;}.nnd4{transition-delay:.21s;}.nnd5{transition-delay:.28s;}.nnd6{transition-delay:.35s;}
+.s9-os{font-family:var(--sans);font-size:52px;font-weight:800;letter-spacing:-.025em;transition:opacity .65s;}
+.s9-co{fill:rgba(255,255,255,.28);opacity:1;}
+.s9-ceda{fill:var(--orange);opacity:0;}
+.s9-kicker{font-family:var(--sans);font-size:16px;font-weight:600;fill:rgba(255,255,255,.2);letter-spacing:.16em;}
+#s9.is-active .s9-glow{animation:s9-glow-pulse 3.5s ease-in-out infinite;}
+#s9.is-active .s9-orbit{animation:s9-ring-cw 30s linear infinite;}
+#s9.is-active .s9-pdot{opacity:1;}
+#s9.is-active .pd1{animation:s9-pulse 2.4s linear 0s infinite;}
+#s9.is-active .pd2{animation:s9-pulse 2.4s linear .4s infinite;}
+#s9.is-active .pd3{animation:s9-pulse 2.4s linear .8s infinite;}
+#s9.is-active .pd4{animation:s9-pulse 2.4s linear 1.2s infinite;}
+#s9.is-active .pd5{animation:s9-pulse 2.4s linear 1.6s infinite;}
+#s9.is-active .pd6{animation:s9-pulse 2.4s linear 2.0s infinite;}
+#s9[data-state="1"] .s9-brain-outer{stroke:var(--orange);}
+#s9[data-state="1"] .s9-brain-fissure{stroke:var(--orange);}
+#s9[data-state="1"] .s9-brain-fold{stroke:var(--orange);}
+#s9[data-state="1"] .s9-glow{fill:var(--orange);}
+#s9[data-state="1"] .s9-pdot{stroke:var(--orange);}
+#s9[data-state="1"] .s9-orbit{stroke:var(--orange);opacity:.12;}
+#s9[data-state="1"] .s9-node{fill:rgba(61,104,236,.1);stroke:rgba(61,104,236,.75);}
+#s9[data-state="1"] .s9-num{fill:rgba(255,255,255,.9);}
+#s9[data-state="1"] .s9-nname{fill:rgba(255,255,255,.78);}
+#s9[data-state="1"] .s9-co{opacity:0;}
+#s9[data-state="1"] .s9-ceda{opacity:1;}
 
 /* ===== S3 + S4 LIGHT SLIDES ===== */
 #s4{background:var(--paper);}
@@ -365,7 +430,7 @@ html,body{width:100%;height:100%;background:#050505;font-family:var(--sans);over
   <!-- ===== 5: DE PARADOX ===== -->
   <section class="slide" id="s5" data-state="0">
     <div class="s5-kicker">De paradox</div>
-    <div class="s5-title">It works.<br><span class="s5-title-2">Nobody knows why.</span></div>
+    <div class="s5-title">It works.<span class="s5-title-3">until it doesn't</span><br><span class="s5-title-2">Nobody knows why.</span></div>
     <div class="s5-chart">
       <svg viewBox="0 0 1680 540" overflow="visible">
         <!-- Shared start dot -->
@@ -398,40 +463,44 @@ html,body{width:100%;height:100%;background:#050505;font-family:var(--sans);over
 
   <!-- ===== 6: SOCIAL PROOF — Media-cards ===== -->
   <section class="slide" id="s6">
-    <div class="s6-kicker">Niet alleen jij.</div>
+    <div class="s6-kicker">Het speelt breder.</div>
     <div class="s6-grid">
 
       <!-- 1: Yallo (real) -->
+      <div class="s6-card-wrap s6-card-wrap--1">
       <div class="s6-card s6-card--1">
         <div class="s6-chrome"><div class="s6-dots"><span class="s6-dot-r"></span><span class="s6-dot-y"></span><span class="s6-dot-g"></span></div><div class="s6-url-bar">yallo.co/insights</div></div>
         <div class="s6-body">
           <div class="s6-tag" style="color:#1a1a2e;border-color:#1a1a2e">YALLO · ENGINEERING BLOG · FEB 2026</div>
           <div class="s6-headline">The "Slop Layer" Crisis: Why Your AI Code Pilot Is Costing You Millions</div>
-          <div class="s6-excerpt">"AI can complete tasks 35% faster — but creates a dangerous byproduct: vast layers of unmaintainable code that nobody understands, and worse, nobody can fix."</div>
         </div>
+      </div>
       </div>
 
       <!-- 2: Medium (real title) -->
+      <div class="s6-card-wrap s6-card-wrap--2">
       <div class="s6-card s6-card--2">
         <div class="s6-chrome"><div class="s6-dots"><span class="s6-dot-r"></span><span class="s6-dot-y"></span><span class="s6-dot-g"></span></div><div class="s6-url-bar">medium.com/loop-of-thought</div></div>
         <div class="s6-body">
           <div class="s6-tag" style="color:#000;border-color:#000">MEDIUM · LOOP OF THOUGHT</div>
           <div class="s6-headline">The best engineers on my team are drowning in AI cleanup</div>
-          <div class="s6-excerpt">"The people I trust most are spending half their week reviewing, fixing, and explaining code they didn't write and don't fully understand."</div>
         </div>
+      </div>
       </div>
 
       <!-- 3: The New Stack (plausible) -->
+      <div class="s6-card-wrap s6-card-wrap--3">
       <div class="s6-card s6-card--3">
         <div class="s6-chrome"><div class="s6-dots"><span class="s6-dot-r"></span><span class="s6-dot-y"></span><span class="s6-dot-g"></span></div><div class="s6-url-bar">thenewstack.io</div></div>
         <div class="s6-body">
           <div class="s6-tag" style="color:#0074d9;border-color:#0074d9">THE NEW STACK · APRIL 2025</div>
           <div class="s6-headline">Vibe Coding's Hidden Tax: When AI Speed Creates a Senior Dev Bottleneck</div>
-          <div class="s6-excerpt">"Every line of AI output that ships without review becomes someone else's debt. And that someone is almost always your most experienced engineer."</div>
         </div>
+      </div>
       </div>
 
       <!-- 4: Reddit r/cscareerquestions (real URL) -->
+      <div class="s6-card-wrap s6-card-wrap--4">
       <div class="s6-card s6-card--4">
         <div class="s6-chrome"><div class="s6-dots"><span class="s6-dot-r"></span><span class="s6-dot-y"></span><span class="s6-dot-g"></span></div><div class="s6-url-bar">reddit.com/r/cscareerquestions</div></div>
         <div class="s6-body">
@@ -440,8 +509,10 @@ html,body{width:100%;height:100%;background:#050505;font-family:var(--sans);over
           <div class="s6-comment-block"><span class="s6-comment-icon">↑</span><span>"Our VP wants 10x output. We have 0.5x comprehension. The math doesn't work." — 847 points</span></div>
         </div>
       </div>
+      </div>
 
       <!-- 5: Reddit r/ExperiencedDevs (plausible) -->
+      <div class="s6-card-wrap s6-card-wrap--5">
       <div class="s6-card s6-card--5">
         <div class="s6-chrome"><div class="s6-dots"><span class="s6-dot-r"></span><span class="s6-dot-y"></span><span class="s6-dot-g"></span></div><div class="s6-url-bar">reddit.com/r/ExperiencedDevs</div></div>
         <div class="s6-body">
@@ -450,26 +521,32 @@ html,body{width:100%;height:100%;background:#050505;font-family:var(--sans);over
           <div class="s6-comment-block"><span class="s6-comment-icon">↑</span><span>"We call it 'AI debt duty'. It's eaten 30% of my week since we mandated Copilot." — 1.2k points</span></div>
         </div>
       </div>
+      </div>
 
-      <!-- 6: LinkedIn CTO (plausible) -->
+      <!-- 6: LinkedIn Rob Brown (real post) -->
+      <div class="s6-card-wrap s6-card-wrap--6">
       <div class="s6-card s6-card--6">
-        <div class="s6-chrome"><div class="s6-dots"><span class="s6-dot-r"></span><span class="s6-dot-y"></span><span class="s6-dot-g"></span></div><div class="s6-url-bar">linkedin.com</div></div>
+        <div class="s6-chrome"><div class="s6-dots"><span class="s6-dot-r"></span><span class="s6-dot-y"></span><span class="s6-dot-g"></span></div><div class="s6-url-bar">linkedin.com/in/robisit</div></div>
         <div class="s6-body">
-          <div class="s6-li-author"><div class="s6-avatar">RV</div><div><div class="s6-li-name">Ravi Sharma</div><div class="s6-li-role">VP Engineering · Series B SaaS · 2d</div></div></div>
-          <div class="s6-li-post">"Board wants 3x velocity. AI tools deliver. But nobody mentions that code review takes 4x longer and onboarding new devs is nearly impossible. Speed without comprehension isn't progress."</div>
-          <div class="s6-byline">👍 2.1k · 318 comments</div>
+          <div class="s6-li-author"><div class="s6-avatar">RB</div><div><div class="s6-li-name">Rob Brown</div><div class="s6-li-role">Platform Engineering · 2mo</div></div></div>
+          <div class="s6-li-post">"Vercel's hack sounds like an AI slop movie script: An OAuth token from a third-party AI tool. Environment variables nobody made an explicit decision about. $2M ransom on BreachForums. Most engineering teams running AI agents have the same exposure right now."</div>
+          <div class="s6-byline">👍 8 · 3 comments</div>
         </div>
+      </div>
       </div>
 
     </div>
   </section>
 
-  <!-- ===== 7: DRAAIPUNT (moment) ===== -->
+  <!-- ===== 7: MAAR — pivot moment (2-beat) ===== -->
   <section class="slide moment" id="s7">
-    <div style="margin-top:auto;margin-bottom:auto;padding-top:40px;">
-      <div class="big">Het probleem is niet AI.<br><em>Het is het ontbreken<br>van een systeem.</em></div>
-      <div class="msub">AI maakt individuen sneller. Een systeem maakt teams beter. Dat verschil is wat vandaag telt.</div>
-      <div class="mquote">Wij bouwen niet op tools. Wij bouwen op principes.</div>
+    <div class="s7-scene">
+      <div class="s7-maar-row">
+        <span class="s7-maar">Maar</span><span class="s7-dot">.</span><span class="s7-dot">.</span><span class="s7-dot">.</span>
+      </div>
+      <div class="s7-gif-wrap">
+        <img class="s7-gif" src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTQ3dXI1b3JwYjJnb2F6aW16d213N3FqeHU4dmZsNG05OTQ2aHl0ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9058ZMj6ooluP4UUPl/giphy.gif" alt="">
+      </div>
     </div>
   </section>
 
@@ -479,30 +556,105 @@ html,body{width:100%;height:100%;background:#050505;font-family:var(--sans);over
     <div class="num">02</div>
     <div style="margin-top:220px;">
       <div class="kicker">Het Playbook</div>
-      <div class="h1">Het denkmodel</div>
+      <div class="h1">Van vibe coding naar<br><em>AI Assisted Engineering</em></div>
+      <div class="quote">(and beyond)</div>
     </div>
   </section>
 
-  <!-- ===== 6: CEDA OS — 6 DOMEINEN ===== -->
-  <section class="slide content" id="s9">
-    <div class="mark">
-      <svg viewBox="0 0 56 56"><g fill="#3D68EC">
-        <circle cx="52" cy="28" r="2"/><circle cx="49.6" cy="38.5" r="2"/><circle cx="43.1" cy="46.7" r="2.1"/><circle cx="33.4" cy="51.4" r="2"/><circle cx="22.6" cy="51.4" r="2"/><circle cx="12.9" cy="46.7" r="1.9"/><circle cx="6.4" cy="38.5" r="1.8"/><circle cx="4" cy="28" r="1.8"/><circle cx="6.4" cy="17.5" r="1.8"/><circle cx="12.9" cy="9.4" r="1.9"/><circle cx="22.6" cy="4.6" r="2"/><circle cx="33.4" cy="4.6" r="2"/><circle cx="43.1" cy="9.4" r="2.1"/><circle cx="49.6" cy="17.5" r="2"/>
-        <circle cx="45" cy="28" r="3.5"/><circle cx="42.7" cy="36.5" r="3.8"/><circle cx="36.5" cy="42.7" r="4"/><circle cx="28" cy="45" r="3.8"/><circle cx="19.5" cy="42.7" r="3.2"/><circle cx="13.3" cy="36.5" r="3"/><circle cx="11" cy="28" r="2.8"/><circle cx="13.3" cy="19.5" r="2.8"/><circle cx="19.5" cy="13.3" r="3"/><circle cx="28" cy="11" r="3.2"/><circle cx="36.5" cy="13.3" r="3.5"/><circle cx="42.7" cy="19.5" r="3.5"/>
-        <circle cx="38" cy="28" r="3"/><circle cx="36.1" cy="33.9" r="3.2"/><circle cx="31.1" cy="37.5" r="2.8"/><circle cx="24.9" cy="37.5" r="2.5"/><circle cx="19.9" cy="33.9" r="2.4"/><circle cx="18" cy="28" r="2.3"/><circle cx="19.9" cy="22.1" r="2.3"/><circle cx="24.9" cy="18.5" r="2.5"/><circle cx="31.1" cy="18.5" r="2.8"/><circle cx="36.1" cy="22.1" r="3"/>
-      </g></svg>
-    </div>
-    <div class="kicker">CEDA OS</div>
-    <div class="h2">Expertise ingebouwd,<br>niet ingehuurd</div>
-    <div class="domain-grid">
-      <div class="dcell"><div class="dnum">01</div><div class="dname">Strategie &amp; Partnerships</div><div class="dbody">Richting bepalen, instellingen verbinden, coalitie bouwen</div></div>
-      <div class="dcell"><div class="dnum">02</div><div class="dname">Data Engineering</div><div class="dbody">Pipelines, infrastructuur, data verwerking &amp; kwaliteit</div></div>
-      <div class="dcell"><div class="dnum">03</div><div class="dname">Analytics &amp; Onderzoek</div><div class="dbody">Inzichten, rapporten, evidence-based aanbevelingen</div></div>
-      <div class="dcell"><div class="dnum">04</div><div class="dname">Design &amp; Ervaring</div><div class="dbody">UI/UX, huisstijl, toegankelijkheid, communicatie</div></div>
-      <div class="dcell"><div class="dnum">05</div><div class="dname">Software Engineering</div><div class="dbody">Producten bouwen, architectuur, deploy &amp; beheer</div></div>
-      <div class="dcell"><div class="dnum">06</div><div class="dname">Kennismanagement</div><div class="dbody">Skills, playbooks, afspraken &amp; teamonboarding</div></div>
-    </div>
-    <div class="footline">We zijn al begonnen. Dit is versie 0. Vandaag bouwen we samen aan wat het moet worden.</div>
+  <!-- ===== 6: COMPANY OS → CEDA OS BRAIN (2-beat) ===== -->
+  <section class="slide" id="s9" data-state="0">
+    <svg class="s9-svg" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="s9-glow-f" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="40" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- Kicker -->
+      <text class="s9-kicker" x="960" y="80" text-anchor="middle">HET SYSTEEM</text>
+      <!-- Ambient glow behind brain (pulsing when active) -->
+      <circle class="s9-glow" cx="960" cy="528" r="106" fill="#3D68EC" filter="url(#s9-glow-f)" opacity=".16"/>
+      <!-- Slow-rotating orbit ring -->
+      <circle class="s9-orbit" cx="960" cy="520" r="158"/>
+      <!-- Connection lines (brain outline edge → node edge) -->
+      <line class="s9-cline" x1="960" y1="477" x2="960"  y2="254"/>
+      <line class="s9-cline" x1="1022" y1="484" x2="1190" y2="387"/>
+      <line class="s9-cline" x1="1027" y1="558" x2="1190" y2="653"/>
+      <line class="s9-cline" x1="960" y1="562" x2="960"  y2="786"/>
+      <line class="s9-cline" x1="893" y1="558" x2="730"  y2="653"/>
+      <line class="s9-cline" x1="898" y1="484" x2="730"  y2="387"/>
+      <!-- Pulse dots (same start/end as lines) -->
+      <line class="s9-pdot pd1" x1="960" y1="477" x2="960"  y2="254"/>
+      <line class="s9-pdot pd2" x1="1022" y1="484" x2="1190" y2="387"/>
+      <line class="s9-pdot pd3" x1="1027" y1="558" x2="1190" y2="653"/>
+      <line class="s9-pdot pd4" x1="960" y1="562" x2="960"  y2="786"/>
+      <line class="s9-pdot pd5" x1="893" y1="558" x2="730"  y2="653"/>
+      <line class="s9-pdot pd6" x1="898" y1="484" x2="730"  y2="387"/>
+      <!-- Brain shape — drawn ON TOP of lines so fill masks inner portions -->
+      <!-- Outer silhouette (2 lobes, simplified anatomical outline) -->
+      <path class="s9-brain-outer" d="
+        M 960,477
+        C 946,465 910,461 894,475
+        C 878,489 876,509 878,523
+        C 878,537 888,547 884,559
+        C 880,571 868,577 874,585
+        C 882,595 900,593 912,585
+        C 922,577 930,567 938,565
+        C 946,563 953,561 960,562
+        C 967,561 974,563 982,565
+        C 990,567 998,577 1008,585
+        C 1020,593 1038,595 1046,585
+        C 1052,577 1040,571 1036,559
+        C 1032,547 1042,537 1042,523
+        C 1044,509 1042,489 1026,475
+        C 1010,461 974,465 960,477
+        Z
+      "/>
+      <!-- Interhemispheric fissure -->
+      <path class="s9-brain-fissure" d="M 960,477 C 960,503 960,532 960,562"/>
+      <!-- Left hemisphere fold lines (gyri) -->
+      <path class="s9-brain-fold" d="M 880,505 C 892,495 908,497 916,505"/>
+      <path class="s9-brain-fold" d="M 878,531 C 892,523 910,525 920,531"/>
+      <path class="s9-brain-fold" d="M 884,557 C 896,549 912,549 920,553"/>
+      <!-- Right hemisphere fold lines (mirrored) -->
+      <path class="s9-brain-fold" d="M 1040,505 C 1028,495 1012,497 1004,505"/>
+      <path class="s9-brain-fold" d="M 1042,531 C 1028,523 1010,525 1000,531"/>
+      <path class="s9-brain-fold" d="M 1036,557 C 1024,549 1008,549 1000,553"/>
+      <!-- Domain nodes -->
+      <!-- 01 — Top — Strategie & Partnerships -->
+      <circle class="s9-node" cx="960" cy="210" r="44"/>
+      <text class="s9-num" x="960" y="210" text-anchor="middle">01</text>
+      <text class="s9-nname nnd1" x="960" y="147" text-anchor="middle">Strategie &amp;</text>
+      <text class="s9-nname nnd1" x="960" y="166" text-anchor="middle">Partnerships</text>
+      <!-- 02 — Top-right — Data Engineering -->
+      <circle class="s9-node" cx="1228" cy="365" r="44"/>
+      <text class="s9-num" x="1228" y="365" text-anchor="middle">02</text>
+      <text class="s9-nname nnd2" x="1284" y="358" text-anchor="start">Data</text>
+      <text class="s9-nname nnd2" x="1284" y="377" text-anchor="start">Engineering</text>
+      <!-- 03 — Bottom-right — Analytics & Onderzoek -->
+      <circle class="s9-node" cx="1228" cy="675" r="44"/>
+      <text class="s9-num" x="1228" y="675" text-anchor="middle">03</text>
+      <text class="s9-nname nnd3" x="1284" y="668" text-anchor="start">Analytics &amp;</text>
+      <text class="s9-nname nnd3" x="1284" y="687" text-anchor="start">Onderzoek</text>
+      <!-- 04 — Bottom — Design & Ervaring -->
+      <circle class="s9-node" cx="960" cy="830" r="44"/>
+      <text class="s9-num" x="960" y="830" text-anchor="middle">04</text>
+      <text class="s9-nname nnd4" x="960" y="892" text-anchor="middle">Design &amp;</text>
+      <text class="s9-nname nnd4" x="960" y="911" text-anchor="middle">Ervaring</text>
+      <!-- 05 — Bottom-left — Software Engineering -->
+      <circle class="s9-node" cx="692" cy="675" r="44"/>
+      <text class="s9-num" x="692" y="675" text-anchor="middle">05</text>
+      <text class="s9-nname nnd5" x="636" y="668" text-anchor="end">Software</text>
+      <text class="s9-nname nnd5" x="636" y="687" text-anchor="end">Engineering</text>
+      <!-- 06 — Top-left — Kennismanagement -->
+      <circle class="s9-node" cx="692" cy="365" r="44"/>
+      <text class="s9-num" x="692" y="365" text-anchor="middle">06</text>
+      <text class="s9-nname nnd6" x="636" y="358" text-anchor="end">Kennis-</text>
+      <text class="s9-nname nnd6" x="636" y="377" text-anchor="end">management</text>
+      <!-- OS Labels -->
+      <text class="s9-os s9-co" x="960" y="976" text-anchor="middle">Company OS</text>
+      <text class="s9-os s9-ceda" x="960" y="976" text-anchor="middle">CEDA OS</text>
+    </svg>
   </section>
 
   <!-- ===== 7: EXPERTISE VASTLEGGEN ===== -->
@@ -842,6 +994,38 @@ window.addEventListener('touchend',e=>{
       s5State = 0; s5El.dataset.state = '0';
     }
     _prev(i);
+  };
+})();
+
+(function(){
+  const S7_IDX = 7;
+  const s7El = document.getElementById('s7');
+  let s7State = 0;
+  var _prev7 = goTo;
+  goTo = function(i) {
+    if (i > current && current === S7_IDX && s7State === 0) {
+      s7State = 1; s7El.dataset.state = '1'; return;
+    }
+    if (current === S7_IDX && i !== S7_IDX) {
+      s7State = 0; s7El.dataset.state = '0';
+    }
+    _prev7(i);
+  };
+})();
+
+;(function(){
+  const S9_IDX = 9;
+  const s9El = document.getElementById('s9');
+  let s9State = 0;
+  var _prev9 = goTo;
+  goTo = function(i) {
+    if (i > current && current === S9_IDX && s9State === 0) {
+      s9State = 1; s9El.dataset.state = '1'; return;
+    }
+    if (current === S9_IDX && i !== S9_IDX) {
+      s9State = 0; s9El.dataset.state = '0';
+    }
+    _prev9(i);
   };
 })();
 </script>

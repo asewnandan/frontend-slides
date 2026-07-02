@@ -29,3 +29,62 @@
 ## Datapunt (optioneel in te bouwen)
 
 METR 2025 studie: developers dachten 20% sneller te zijn met AI, waren in het experiment 19% *trager*.
+
+---
+
+# Sectie 02 — Het Playbook
+
+## Slidestructuur
+
+| # | ID | Status | Wat |
+|---|---|---|---|
+| 1 | s8 | ✅ Done | Divider — "Van vibe coding naar AI Assisted Engineering (and beyond)" |
+| 2 | s9 | 📝 Content aanwezig | CEDA OS — 6 domeinen (domain-grid, dot-logo) |
+| 3 | s10 | 📝 Content aanwezig | Expertise vastleggen — Skill / Hook / Standaard / Agent (mechrow) |
+| 4 | s11 | 📝 Content aanwezig | Maker vs Architect — twee rollen, twee werelden (split cards) |
+| 5 | s12 | 📝 Content aanwezig | Scope afbakening — "Vandaag buiten scope: itereren op bestaand product" |
+
+## Beslissingen genomen
+
+- **WebGL-brein** → uit outline.md, nog niet gebouwd. Was gepland als visueel kernmoment (neuronen → CEDA OS transformatie). Nu nog niet in het deck — beslissing nodig: inbouwen of weglaten voor deze iteratie.
+- **Transformatie-animatie** → slide s9 (CEDA OS) is statisch. Eventueel animeren: domeinen die één voor één inlopen.
+- **Scope-slide s12** → dient als bewuste rem zodat deelnemers niet verwachten dat ze een full product bouwen.
+
+## Openstaande vragen
+
+- Wil je de WebGL-brein slide alsnog toevoegen (vóór s9), of is de huidige CEDA OS domain-grid voldoende?
+- Moeten s9-s12 visueel worden opgepoetst (animaties, betere typehiërarchie) of is de content-laag goed genoeg?
+
+---
+
+# Sectie 03 — De Workshop
+
+## Slidestructuur
+
+| # | ID | Status | Wat |
+|---|---|---|---|
+| 1 | s13 | 📝 Content aanwezig | Divider — "De Workshop — Aan de slag, 30 minuten" |
+| 2 | s14 | 📝 Content aanwezig | De opdracht — "Bouw de CEDA site. In pairs." + secties + briefing.md |
+| 3 | s15 | 📝 Content aanwezig | Toolkit — Repo / Skills / briefing.md / handover.md |
+
+## Beslissingen genomen
+
+- **Timer** → niet ingebouwd. Optie: live countdown-component op s13 of s14 voor de 30 minuten.
+- **Pairs-indeling** → niet in deck, wordt mondeling gedaan.
+
+---
+
+# Sectie 04 — Debrief
+
+## Slidestructuur
+
+| # | ID | Status | Wat |
+|---|---|---|---|
+| 1 | s16 | 📝 Content aanwezig | Divider — "Debrief — Reflectie" |
+| 2 | s17 | 📝 Content aanwezig | Reflectie — drie live-fill cards: Maker / Architect / Systeem |
+| 3 | s18 | 📝 Content aanwezig | Afsluiter moment — "AI is een multiplier. De vraag is: wat vermenigvuldig jij?" |
+
+## Beslissingen genomen
+
+- **s17 live-fill cards** → inhoud is `— live invullen —`, bedoeld om tijdens debrief samen in te vullen. Inline-edit mode van de presentatie maakt dit mogelijk.
+- **s18 links** → heeft placeholder pills (github, workshop repo, playbook docs). Moeten nog echte URLs krijgen.
