@@ -1,0 +1,203 @@
+  </div><!-- /track -->
+ </div><!-- /frame -->
+</div><!-- /viewport -->
+
+<div class="dots" id="dots"></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const N = slides.length;
+const frame = document.getElementById('frame');
+const track = document.getElementById('track');
+const dotsWrap = document.getElementById('dots');
+let current = 0;
+
+for(let i=0;i<N;i++){
+  const b = document.createElement('button');
+  if(i===0) b.classList.add('active');
+  b.title = 'Slide '+(i+1);
+  b.addEventListener('click',()=>goTo(i));
+  dotsWrap.appendChild(b);
+}
+const dotEls = dotsWrap.querySelectorAll('button');
+
+function layout(){
+  const s = Math.min(window.innerWidth/1920, window.innerHeight/1080);
+  frame.style.transform = 'scale('+s+')';
+}
+function goTo(i){
+  current = Math.max(0,Math.min(N-1,i));
+  track.style.transform = 'translateY('+(-current*1080)+'px)';
+  dotEls.forEach((d,idx)=>d.classList.toggle('active',idx===current));
+  slides.forEach((s,idx)=>s.classList.toggle('is-active',idx===current));
+}
+slides[0].classList.add('is-active');
+
+window.addEventListener('resize',layout);
+layout();
+
+document.addEventListener('keydown',e=>{
+  if(['ArrowDown','ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();goTo(current+1);}
+  if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();goTo(current-1);}
+});
+
+let wheelLock=false;
+window.addEventListener('wheel',e=>{
+  if(wheelLock)return;
+  wheelLock=true;
+  if(e.deltaY>10) goTo(current+1);
+  else if(e.deltaY<-10) goTo(current-1);
+  setTimeout(()=>wheelLock=false,550);
+},{passive:true});
+
+let ty=null;
+window.addEventListener('touchstart',e=>{ty=e.touches[0].clientY;});
+window.addEventListener('touchend',e=>{
+  if(ty===null)return;
+  const dy=ty-e.changedTouches[0].clientY;
+  if(Math.abs(dy)>50){if(dy>0)goTo(current+1);else goTo(current-1);}
+  ty=null;
+});
+
+// ===== S2 TIJDLIJN =====
+;(function(){
+  const JS_TOOLS = ['Grunt','Bower','Gulp','Webpack','Babel','Browserify','Angular 1','Ember','CoffeeScript','RequireJS','Rollup','Brunch','jspm','SystemJS','Yeoman','Karma','Less','Stylus','PostCSS','Duo','LiveScript','JSCS','JSHint','Component','Parcel','Snowpack'];
+  const AI_TOOLS = ['GitHub Copilot','ChatGPT','Cursor','Devin','Claude Code','Bolt.new','v0','Aider','Cline','OpenHands','Gemini CLI','Codeium','Roo Code','Lovable','OpenClaw','Windsurf','Kilo Code','Continue.dev','Manus','Sweep','Supermaven','Codex CLI','nanobot','Tabnine','Amazon Q','Replit AI','Fable 5','Skills','Agents','MCP','Paperclip'];
+  const S2_IDX = 2;
+
+  const s2El   = document.getElementById('s2');
+  const yearEl = document.getElementById('tl-year');
+  const eraEl  = document.getElementById('tl-era');
+  const drumEl = document.getElementById('tl-drum-inner');
+  let drumIdx = 0, drumTools = [], drumTimer = null, yearTimer = null, s2State = 0;
+
+  // ease-in-out year counter: slow start, fast middle, slow end — total ~3s for 11 steps
+  function runYear(from, to, onDone) {
+    clearTimeout(yearTimer);
+    var steps = Math.abs(to - from);
+    var dir = to > from ? 1 : -1;
+    var yr = from; var i = 0;
+    function stepDelay(idx) {
+      var t = idx / (steps - 1);
+      return Math.round(295 * (1.5 - Math.sin(Math.PI * t)));
+    }
+    function tick() {
+      yr += dir; yearEl.textContent = yr; i++;
+      if (yr === to) { onDone(); return; }
+      yearTimer = setTimeout(tick, stepDelay(i));
+    }
+    yearTimer = setTimeout(tick, stepDelay(0));
+  }
+
+  function updateDrum(tools, activeIdx) {
+    drumEl.innerHTML = '';
+    for (var i = -2; i <= 2; i++) {
+      var tIdx = ((activeIdx + i) % tools.length + tools.length) % tools.length;
+      var div = document.createElement('div');
+      div.className = 'tl-drum-item';
+      div.dataset.pos = String(i);
+      div.textContent = tools[tIdx];
+      drumEl.appendChild(div);
+    }
+  }
+
+  function startDrum(tools, speed) {
+    drumTools = tools; drumIdx = 0;
+    updateDrum(tools, 0);
+    clearInterval(drumTimer);
+    drumTimer = setInterval(function(){
+      drumIdx = (drumIdx + 1) % drumTools.length;
+      updateDrum(drumTools, drumIdx);
+    }, speed);
+  }
+
+  function startJSEra() {
+    eraEl.style.opacity = '0';
+    runYear(2026, 2015, function() {
+      eraEl.textContent = 'JavaScript Fatigue — 2015';
+      eraEl.style.opacity = '';
+      startDrum(JS_TOOLS, 2800);
+    });
+  }
+
+  function startAIEra() {
+    clearInterval(drumTimer);
+    eraEl.style.opacity = '0';
+    runYear(2015, 2026, function() {
+      eraEl.textContent = 'AI Fatigue — 2026';
+      eraEl.style.opacity = '';
+      startDrum(AI_TOOLS, 2600);
+    });
+  }
+
+  function s2Reset() {
+    clearInterval(drumTimer); clearTimeout(yearTimer);
+    s2State = 0; s2El.dataset.state = '0';
+    yearEl.textContent = '2026';
+    eraEl.textContent = '';
+    eraEl.style.opacity = '';
+    drumEl.innerHTML = '';
+  }
+
+  var _origGoTo = goTo;
+  goTo = function(i) {
+    if (i > current && current === S2_IDX) {
+      if (s2State === 0) { s2State = 1; s2El.dataset.state = '1'; startJSEra(); return; }
+      if (s2State === 1) { s2State = 2; s2El.dataset.state = '2'; startAIEra(); return; }
+    }
+    if (current === S2_IDX && i !== S2_IDX) s2Reset();
+    _origGoTo(i);
+  };
+})();
+
+// ===== S5 PARADOX =====
+;(function(){
+  const S5_IDX = 5;
+  const s5El = document.getElementById('s5');
+  let s5State = 0;
+  var _prev = goTo;
+  goTo = function(i) {
+    if (i > current && current === S5_IDX && s5State === 0) {
+      s5State = 1; s5El.dataset.state = '1'; return;
+    }
+    if (current === S5_IDX && i !== S5_IDX) {
+      s5State = 0; s5El.dataset.state = '0';
+    }
+    _prev(i);
+  };
+})();
+
+(function(){
+  const S7_IDX = 7;
+  const s7El = document.getElementById('s7');
+  let s7State = 0;
+  var _prev7 = goTo;
+  goTo = function(i) {
+    if (i > current && current === S7_IDX && s7State === 0) {
+      s7State = 1; s7El.dataset.state = '1'; return;
+    }
+    if (current === S7_IDX && i !== S7_IDX) {
+      s7State = 0; s7El.dataset.state = '0';
+    }
+    _prev7(i);
+  };
+})();
+
+;(function(){
+  const S9_IDX = 9;
+  const s9El = document.getElementById('s9');
+  let s9State = 0;
+  var _prev9 = goTo;
+  goTo = function(i) {
+    if (i > current && current === S9_IDX && s9State < 3) {
+      s9State++; s9El.dataset.state = String(s9State); return;
+    }
+    if (current === S9_IDX && i !== S9_IDX) {
+      s9State = 0; s9El.dataset.state = '0';
+    }
+    _prev9(i);
+  };
+})();
+</script>
+</body>
+</html>
